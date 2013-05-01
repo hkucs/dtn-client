@@ -82,6 +82,11 @@ class Handler(asynchat.async_chat):
 
     def handle_close(self):
         print "Buffer length: %s" % len(self.in_buffer)
+        # assume the chunk can fit in RAM
+        self.f = open('saved_chunk', 'wb')
+        for c in self.in_buffer:
+            self.f.write(c)
+        self.f.close()
         self.close()
 
     def close(self):
