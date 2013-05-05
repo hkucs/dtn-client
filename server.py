@@ -13,6 +13,7 @@ import time
 import atexit
 import warnings
 import optparse
+import json
 
 from config import *
 from utils import *
@@ -79,6 +80,15 @@ class ListenHandler(asynchat.async_chat):
     def collect_incoming_data(self, data):
         """Buffer the data"""
         self.in_buffer.append(data)
+        # parse the json message
+        decoded_json = json.loads(data)
+        print 'Decoded json:'
+        print decoded_json
+
+        # is it a response?
+
+
+        # is it a transmit command?
 
     def get_log(self):
         if len(self.in_buffer):

@@ -114,6 +114,7 @@ class TestListenerJson(TestListener):
         cmd = {'start_time': start_time, 'end_time': end_time, 'size': size, 'source': source, 'destination': destination, 'type': type_}
         cmd_json = json.dumps(cmd)
         self.client.send(cmd_json)
+        time.sleep(0.1)
 
         self.client.close()
         self.listenserver.wait()
@@ -125,8 +126,8 @@ def test_main():
 
     test_suite = unittest.TestSuite()
     #test_suite.addTest(unittest.makeSuite(TestSendfile))
-    #test_suite.addTest(unittest.makeSuite(TestListenerJson))
-    test_suite.addTest(unittest.makeSuite(TestSimpleController))
+    test_suite.addTest(unittest.makeSuite(TestListenerJson))
+    #test_suite.addTest(unittest.makeSuite(TestSimpleController))
     unittest.TextTestRunner(verbosity=2).run(test_suite)
 
 if __name__ == '__main__':
