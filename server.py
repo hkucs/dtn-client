@@ -98,7 +98,7 @@ class ListenHandler(asynchat.async_chat):
         # initial implementation: send directly from this class
         if 'next_hop' in decoded_json:
             # send file
-            next_hop = str(decoded_json.get('next_hop')
+            next_hop = str(decoded_json.get('next_hop'))
             filename = str(decoded_json.get('job_id')) + str(decoded_json.get('chunk_id'))
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((next_hop, int(GATEWAY_DAT_PORT)))

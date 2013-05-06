@@ -35,3 +35,20 @@ def safe_remove(file):
 def add_job_chunk(job_id, chunk_id):
     if (job_id, chunk_id) not in cache:
         cache[(job_id, chunk_id)] = 1
+
+
+def send_file(addr, port, filename, buffer_len):
+    import socket,os
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((addr, port))
+    f = open(filename, "rb")
+    basename = os.path.basename(filename)
+    s.send(basename)
+
+    while True:
+        chunk = f.read(buffer_len)
+        if not chunk:
+            break
+        s.sendall(chunk)
+    s.close()
+    f.close()

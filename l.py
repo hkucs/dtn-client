@@ -4,27 +4,27 @@ src: https://gist.github.com/micktwomey/606178
 '''
 import multiprocessing
 import socket
+import utils
 
 from config import *
 
 def handle(conn, addr):
-    import logging
+    import logging,json
     logging.basicConfig(level=logging.DEBUG)
     logger = logging.getLogger("process: %r" % (addr,))
     try:
         logger.debug("Connected %r at %r", conn, addr)
-        data = conn.recv(HEADER_LEN)
-        filename = data
-        f = open('/data/saved_%s' % filename, "wb")
-        while True:
-            data = conn.recv(BUFFER_LEN)
-            if data == "":
-                logger.debug("Socket closed remotely")
-                break
-            f.write(data)
-            #logger.debug("Received data %r", data)
-            #conn.sendall(data)
-            #logger.debug("Sent data")
+        data = conn.recv(BUFFER_LEN)
+        decoded_json = json.loads(data)
+        print decoded_json
+
+        if 'next_hop' in decoded_json:
+            next_hop = str(decoded_json.get('next_hop'))
+            job_id = str(decoded_json.get('job_id'))
+            chunk_id = str(decoded_json.get('chunk_id'))
+            filename = '/data/%s_%s' % (job_id, chunk_id)
+            # send file
+            utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
 
     except:
         logger.exception("Problem handling request")
@@ -32,15 +32,15 @@ def handle(conn, addr):
         logger.debug("Closing socket")
         conn.close()
 
-class Server(object):
+class Listener(object):
     def __init__(self, hostname, port):
         import logging
-        self.logger = logging.getLogger("server")
+        self.logger = logging.getLogger("Listener")
         self.hostname = hostname
         self.port = port
 
     def start(self):
-        self.logger.debug("listening")
+        self.logger.debug("listening to commands")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((self.hostname, self.port))
         self.socket.listen(1)
@@ -56,11 +56,11 @@ class Server(object):
 if __name__ == "__main__":
     import logging
     logging.basicConfig(level=logging.DEBUG)
-    server = Server("0.0.0.0", int(GATEWAY_DAT_PORT))
+    listener = Listener("0.0.0.0", int(GATEWAY_CMD_PORT))
 
     try:
         logging.info("Listening")
-        server.start()
+        listener.start()
     except:
         logging.exception("Unexpected exception")
     finally:
