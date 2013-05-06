@@ -18,6 +18,8 @@ class Controller():
             cmd = json.loads(cmd_json)
             print cmd
 
+            self.sc.send('3.14')
+
             self.sc.close()
             print 'Disconnected'
 

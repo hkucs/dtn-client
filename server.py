@@ -55,12 +55,16 @@ class Handler(asynchat.async_chat):
     def handle_close(self):
         print "Buffer length: %s" % len(self.in_buffer)
         # assume the chunk can fit in RAM
-        ts = datetime.datetime.now().isoformat()
-        self.f = open('saved_%s' % ts, 'wb')
-        for c in self.in_buffer:
+        #ts = datetime.datetime.now().isoformat()
+        job_id = self.in_buffer[0]
+        chunk_id = self.in_buffer[1]
+        self.f = open('%s_%s' % job_id,chunk_id, 'wb')
+        for c in self.in_buffer[2:]:
             self.f.write(c)
         self.f.close()
         self.close()
+        # critical, write to cache table
+        add_job_chunk(job_id, chunk_id)
 
     def close(self):
         asynchat.async_chat.close(self)
@@ -86,9 +90,31 @@ class ListenHandler(asynchat.async_chat):
         print decoded_json
 
         # is it a response?
+        # accept_or_not?
+        # right now, assume all jobs are accepted.
 
 
         # is it a transmit command?
+        # initial implementation: send directly from this class
+        if 'next_hop' in decoded_json:
+            # send file
+            next_hop = str(decoded_json.get('next_hop')
+            filename = str(decoded_json.get('job_id')) + str(decoded_json.get('chunk_id'))
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((next_hop, int(GATEWAY_DAT_PORT)))
+            f = open(filename, 'rb')
+            # job_id and chunk_id padding
+            s.send(str(decoded_json.get('job_id')))
+            s.send(str(decoded_json.get('chunk_id')))
+
+            while True:
+                chunk = f.read(BUFFER_LEN)
+                if not trunk:
+                    break
+                s.sendall(chunk)
+            s.close()
+            f.close()
+
 
     def get_log(self):
         if len(self.in_buffer):

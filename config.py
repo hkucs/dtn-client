@@ -8,3 +8,6 @@ BUFFER_LEN = 1024
 BIGFILE_SIZE = 10000000 # 10m
 
 PY3 = sys.version_info >= (3,)
+
+# buffer management per gateway
+cache = {}

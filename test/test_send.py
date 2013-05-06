@@ -33,6 +33,7 @@ class TestSimpleController(unittest.TestCase):
         cmd_json = json.dumps(cmd)
 
         self.client.send(cmd_json)
+        print self.client.recv(BUFFER_LEN)
 
 '''
 To make sure that the server can receive chunks correctly
@@ -105,6 +106,7 @@ class TestListener(unittest.TestCase):
 class TestListenerJson(TestListener):
 
     def test_listener(self):
+        '''
         start_time = '2013-05-05-17-33-33'
         end_time = '2013-05-05-17-59-50'
         size = '1000'
@@ -112,6 +114,12 @@ class TestListenerJson(TestListener):
         destination = '10.6.0.101'
         type_ = 'Undefined'
         cmd = {'start_time': start_time, 'end_time': end_time, 'size': size, 'source': source, 'destination': destination, 'type': type_}
+        '''
+        job_id = 1024
+        chunk_id = 13
+        next_hop = '10.6.0.101'
+
+        cmd = {'job_id': job_id, 'chunk_id': chunk_id, 'next_hop': next_hop}
         cmd_json = json.dumps(cmd)
         self.client.send(cmd_json)
         time.sleep(0.1)
@@ -120,14 +128,21 @@ class TestListenerJson(TestListener):
         self.listenserver.wait()
         log = self.listenserver.handler_instance.get_log()
 
+'''
+test real traffic
+'''
+class TestSendChunk(unittest.TestCase):
+
+    def setUp(self):
+
 
 def test_main():
     print 'test main'
 
     test_suite = unittest.TestSuite()
     #test_suite.addTest(unittest.makeSuite(TestSendfile))
-    test_suite.addTest(unittest.makeSuite(TestListenerJson))
-    #test_suite.addTest(unittest.makeSuite(TestSimpleController))
+    #test_suite.addTest(unittest.makeSuite(TestListenerJson))
+    test_suite.addTest(unittest.makeSuite(TestSimpleController))
     unittest.TextTestRunner(verbosity=2).run(test_suite)
 
 if __name__ == '__main__':

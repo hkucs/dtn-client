@@ -32,3 +32,6 @@ def safe_remove(file):
     except OSError:
         pass
 
+def add_job_chunk(job_id, chunk_id):
+    if (job_id, chunk_id) not in cache:
+        cache[(job_id, chunk_id)] = 1
