@@ -18,7 +18,9 @@ class Controller():
             cmd = json.loads(cmd_json)
             print cmd
 
-            self.sc.send('3.14')
+            #self.sc.send('3.14')
+            response = {'job_id': '13', 'accept_or_not': 'yes', 'type': 'response'}
+            self.sc.send(json.dumps(response))
 
             self.sc.close()
             print 'Disconnected'
