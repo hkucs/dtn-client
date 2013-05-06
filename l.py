@@ -20,8 +20,8 @@ def handle(conn, addr):
 
         if 'next_hop' in decoded_json:
             next_hop = str(decoded_json.get('next_hop'))
-            job_id = str(decoded_json.get('job_id'))
-            chunk_id = str(decoded_json.get('chunk_id'))
+            job_id = str(decoded_json.get('job_id')).zfill(8)
+            chunk_id = str(decoded_json.get('chunk_id')).zfill(4)
             filename = '/data/%s_%s' % (job_id, chunk_id)
             # send file
             utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
