@@ -15,7 +15,7 @@ def handle(conn, addr):
         logger.debug("Connected %r at %r", conn, addr)
         data = conn.recv(HEADER_LEN)
         filename = data
-        f = open('/data/saved_%s' % filename, "wb")
+        f = open('/data/%s' % filename, "wb")
         while True:
             data = conn.recv(BUFFER_LEN)
             if data == "":
