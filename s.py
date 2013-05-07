@@ -14,6 +14,9 @@ def handle(conn, addr):
     try:
         logger.debug("Connected %r at %r", conn, addr)
         data = conn.recv(HEADER_LEN)
+        job_id = data[0:7]
+        chunk_id = data[9:13]
+        logger.debug('Transmitting Job %s, Chunk %s', job_id, chunk_id)
         filename = data
         f = open('/data/%s' % filename, "wb")
         while True:
