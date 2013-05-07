@@ -18,7 +18,8 @@ def handle(conn, addr):
         logger.debug("Connected %r at %r", conn, addr)
         data = conn.recv(BUFFER_LEN)
         decoded_json = json.loads(data)
-        print decoded_json
+        #print decoded_json
+        logger.debug("Raw: %s", decoded_json)
 
         # transmit
         if 'next_hop' in decoded_json:
@@ -30,7 +31,9 @@ def handle(conn, addr):
             utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
 
         # notify_dest
-        #if 'chunk_size' in decoded_json:
+        if 'chunk_size' in decoded_json:
+            logger.debug("Notified by controller: deadline for job.[TODO]")
+            #logger.debug("Raw: %s", decoded_json)
 
 
     except:
