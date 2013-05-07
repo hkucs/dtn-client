@@ -10,7 +10,9 @@ from config import *
 
 def handle(conn, addr):
     import logging,json
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG,
+            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            datefmt='%m-%d %H:%M:%S')
     logger = logging.getLogger("process: %r" % (addr,))
     try:
         logger.debug("Connected %r at %r", conn, addr)
@@ -18,6 +20,7 @@ def handle(conn, addr):
         decoded_json = json.loads(data)
         print decoded_json
 
+        # transmit
         if 'next_hop' in decoded_json:
             next_hop = str(decoded_json.get('next_hop'))
             job_id = str(decoded_json.get('job_id')).zfill(8)
@@ -25,6 +28,10 @@ def handle(conn, addr):
             filename = '/data/%s_%s' % (job_id, chunk_id)
             # send file
             utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
+
+        # notify_dest
+        #if 'chunk_size' in decoded_json:
+
 
     except:
         logger.exception("Problem handling request")
@@ -55,7 +62,9 @@ class Listener(object):
 
 if __name__ == "__main__":
     import logging
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG,
+            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            datefmt='%m-%d %H:%M:%S')
     listener = Listener("0.0.0.0", int(GATEWAY_CMD_PORT))
 
     try:

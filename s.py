@@ -55,7 +55,9 @@ class Server(object):
 
 if __name__ == "__main__":
     import logging
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG,
+            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            datefmt='%m-%d %H:%M:%S')
     server = Server("0.0.0.0", int(GATEWAY_DAT_PORT))
 
     try:
