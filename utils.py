@@ -53,8 +53,8 @@ def send_file(addr, port, filename, buffer_len):
     s.close()
     f.close()
 
-def create_request(start_time, end_time, size, source, destination, t):
+def create_request(start_time, end_time, size, source, destination, t, utility):
     import json
-    cmd = {'start_time': start_time, 'end_time': end_time, 'size': size, 'source': source, 'destination': destination, 'type': t}
+    cmd = {'start_time': start_time, 'end_time': end_time, 'size': size, 'source': source, 'destination': destination, 'type': t, 'utility': utility}
     cmd_json = json.dumps(cmd)
     return cmd_json

@@ -2,3 +2,9 @@
 1. plot
 2. notify_dest
 3. traffic arrival pattern
+
+Figures:
+- Comp our sched v.s. FIFO
+- req/time, sched_job/time
+- latency
+- 
