@@ -20,7 +20,8 @@ class Controller():
 
             #self.sc.send('3.14')
             response = {'job_id': '13', 'accept_or_not': 'yes', 'type': 'response'}
-            self.sc.send(json.dumps(response))
+            res2 = '23'
+            self.sc.send(res2)
 
             self.sc.close()
             print 'Disconnected'
