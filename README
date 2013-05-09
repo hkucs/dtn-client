@@ -8,3 +8,13 @@ Figures:
 - req/time, sched_job/time
 - latency
 - 
+
+2013-05-08 TODO:
+- figures (what to draw, be able to draw)
+- FIFO (disgard tasks that misses deadline)
+- traffic generation
+- notify_dest does not affect scheduling.
+
+2013-05-09
+- two pages of experiments (figures)
+- 

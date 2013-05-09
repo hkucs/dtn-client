@@ -21,6 +21,9 @@ def handle(conn, addr):
         #print decoded_json
         logger.debug("Raw: %s", decoded_json)
 
+        # get msg type from json
+        msg_type = str(decoded_json.get('type'))
+
         # transmit
         if 'next_hop' in decoded_json:
             next_hop = str(decoded_json.get('next_hop'))
@@ -33,7 +36,23 @@ def handle(conn, addr):
         # notify_dest
         if 'chunk_size' in decoded_json:
             logger.debug("Notified by controller: deadline for job.[TODO]")
+            d_job_id = str(decoded_json.get('job_id')).zfill(8)
+            d_chunk_size = str(decoded_json.get('chunk_size'))
+            d_deadline = str(decoded_json.get('deadline'))
+            # date str to datetime type.
             #logger.debug("Raw: %s", decoded_json)
+
+        # notify_comp
+        if msg_type == 'notify_comp':
+            # get job_id and chunk_id
+            c_job_id = str(decoded_json.get('job_id')).zfill(8)
+            c_chunk_id = str(decoded_json.get('chunk_id')).zfill(4)
+
+            # check whether the cache is on disk
+            c_filename = '/data/%s_%s' % (c_job_id, c_chunk_id)
+            if os.path.exists(c_filename):
+                os.remove(c_filename)
+
 
 
     except:
