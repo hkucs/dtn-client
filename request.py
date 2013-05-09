@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import socket,os,sys,json,shutil,datetime
+import socket,os,sys,json,shutil,datetime,time
 import utils
 from config import *
 
@@ -53,9 +53,9 @@ def request(source, destination, size=4, delay=30, deadline=90, utility=1.0):
 
 if __name__ == '__main__':
 
-    print request('10.6.1.101', '10.6.1.102', 4, 10, 110, 1.0)
-    time.sleep(10)
-    print request('10.6.1.101', '10.6.1.102', 1, 10, 22, 1.0)
+    #print request('10.6.1.101', '10.6.1.102', 4, 10, 110, 1.0)
+    #time.sleep(10)
+    print request('10.6.1.101', '10.6.1.102', 1, 10, 35, 1.0)
     #print request('10.6.1.102', '10.6.1.103', 3, 33, 39, 1.0)
     #print request('10.6.1.103', '10.6.1.104', 8, 35, 50, 1.0)
 
