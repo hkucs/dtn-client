@@ -25,6 +25,21 @@ def handle(conn, addr):
         # get msg type from json
         msg_type = str(decoded_json.get('type'))
 
+        # create file upon successful response
+        if msg_type == 'response':
+            accept_or_not = str(decoded_json.get('accept_or_not'))
+            if accept_or_not == 'true':
+                job_id = str(decoded_json.get('job_id')).zfill(8)
+                chunk_size = int(decoded_json.get('chunk_size'))
+
+                # create dummy chunks:
+                srcfile = '/data/block'
+                assert os.path.isabs(srcfile)
+                for x in range(0,chunk_size):
+                    dstfile = '/data/%s_%s' % (job_id, str(x).zfill(4))
+                    shutil.copy(srcfile, dstfile)
+
+
         # transmit
         if 'next_hop' in decoded_json:
             next_hop = str(decoded_json.get('next_hop'))

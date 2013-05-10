@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 
-import socket,os,sys,json,shutil,datetime,time
+import socket
+import os
+import sys
+import json
+import shutil
+import datetime
+import time
+import threading
+
 import utils
 from config import *
 
@@ -51,13 +59,51 @@ def request(source, destination, size=4, delay=30, deadline=90, utility=1.0):
 
     return False
 
+def gen_req(filename):
+    '''
+    1. Read requests from file:
+       [time, [req]]
+    2. threading.Timer() sched
+    3.
+    '''
+    reqs = []
+    try:
+        f = open(filename, 'r')
+        lines = f.readlines()
+        for line in lines:
+            r = line.strip().split(' ')
+            reqs.append(r)
+
+    except IOError:
+        print 'Error reading file %s' % filename
+
+    finally:
+        f.close()
+
+    # sort reqs by reqs[0] (time)
+
+    # sched requests
+    # 1st impl: print reqs instead of *really* send them
+    # 2nd impl: send small number of requests
+    for req in reqs:
+        time.sleep(int(req[0]))
+        print req
+        print request(str(req[1]), str(req[2]), int(req[3]), int(req[4]), int(req[5]), str(req[6]))
+
+
 if __name__ == '__main__':
 
-    #print request('10.6.1.101', '10.6.1.102', 4, 10, 110, 1.0)
-    #time.sleep(10)
-    print request('10.6.1.101', '10.6.1.102', 1, 10, 35, 1.0)
+    '''
+    Simple requests:
+
+    print request('10.6.1.101', '10.6.1.102', 4, 10, 110, 1.0)
+    time.sleep(10)
+    print request('10.6.1.101', '10.6.1.102', 1, 10, 40, 1.0)
     #print request('10.6.1.102', '10.6.1.103', 3, 33, 39, 1.0)
     #print request('10.6.1.103', '10.6.1.104', 8, 35, 50, 1.0)
+    '''
+
+    gen_req("t600")
 
 
 
