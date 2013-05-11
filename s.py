@@ -52,6 +52,15 @@ class Server(object):
         self.hostname = hostname
         self.port = port
 
+        self.logger_cnt = logging.getLogger("Counter")
+        self.proc_cnt = 0
+        self.intv_cnt = 10
+
+    def hdlr_counter(self):
+        while True:
+            self.logger_cnt.debug("Number of threads %d", self.proc_cnt)
+            time.sleep(self.intv_cnt)
+
     def start(self):
         self.logger.debug("Listening")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -67,7 +76,7 @@ class Server(object):
             conn, addr = self.socket.accept()
             self.logger.debug("Got connection")
             process = multiprocessing.Process(target=handle, args=(conn,addr))
-            print multiprocessing.active_children()
+            self.proc_cnt = self.proc_cnt + 1
             process.daemon = True
             process.start()
             self.logger.debug("Started process %r", process)
