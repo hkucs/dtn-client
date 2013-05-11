@@ -3,6 +3,7 @@
 src: https://gist.github.com/micktwomey/606178
 '''
 import multiprocessing
+import threading
 import socket
 import utils
 import os
@@ -14,12 +15,13 @@ from config import *
 # basic logging config
 logging.basicConfig(level=logging.DEBUG,
         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-        datefmt='%m-%d %H:%M:%S')
+        datefmt='%s %m-%d %H:%M:%S')
 
 def handle(conn, addr):
     import json
 
-    logger = logging.getLogger("Handler: %r" % (addr,))
+    #logger = logging.getLogger("Handler: %r" % (addr,))
+    logger = logging.getLogger("Handler")
 
     '''
     # Output logging information to screen
@@ -66,6 +68,7 @@ def handle(conn, addr):
             chunk_id = str(decoded_json.get('chunk_id')).zfill(4)
             filename = '/data/%s_%s' % (job_id, chunk_id)
             # send file
+            logger.debug("Sending Job #%s Chunk #%s", job_id, chunk_id)
             utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
 
         # notify_dest

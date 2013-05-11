@@ -79,7 +79,7 @@ if __name__ == '__main__':
     c = Controller()
     #c.run()
     c.send_response()
-    time.sleep(10)
+    time.sleep(5)
     c.send_transmit()
     time.sleep(2)
     c.send_notify_dest()
