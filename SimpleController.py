@@ -28,6 +28,8 @@ class Controller():
 
         self.s.close()
 
+    def send_response()
+
 if __name__ == '__main__':
     c = Controller()
     c.init()
