@@ -39,7 +39,10 @@ def handle(conn, addr):
         conn.close()
 
 def hdlr_counter():
-
+    logger = logging.getLogger("Counter")
+    while True:
+        print multiprocessing.active_children()
+        time.sleep(5)
 
 class Server(object):
     def __init__(self, hostname, port):
