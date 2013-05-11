@@ -33,7 +33,7 @@ def handle(conn, addr):
     '''
 
     try:
-        logger.debug("Connected %r at %r", conn, addr)
+        #logger.debug("Connected %r at %r", conn, addr)
         data = conn.recv(BUFFER_LEN)
         decoded_json = json.loads(data)
         #print decoded_json

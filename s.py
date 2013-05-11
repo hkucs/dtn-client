@@ -52,6 +52,7 @@ class Server(object):
             conn, addr = self.socket.accept()
             self.logger.debug("Got connection")
             process = multiprocessing.Process(target=handle, args=(conn,addr))
+            print multiprocessing.active_children()
             process.daemon = True
             process.start()
             self.logger.debug("Started process %r", process)
