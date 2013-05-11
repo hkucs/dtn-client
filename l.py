@@ -30,6 +30,7 @@ def handle(conn, addr):
             accept_or_not = str(decoded_json.get('accept_or_not'))
             if accept_or_not == 'true':
                 job_id = str(decoded_json.get('job_id')).zfill(8)
+                logger.debug("Creating dummy chunks for job #%s", job_id)
                 chunk_size = int(decoded_json.get('chunk_size'))
 
                 # create dummy chunks:

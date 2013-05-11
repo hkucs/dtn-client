@@ -45,6 +45,9 @@ def request(source, destination, size=4, delay=30, deadline=90, utility=1.0):
     s.close()
     print 'Received job_id: %s. Size: %s' % (recv_job_id, len(recv_job_id))
     recv_job_id = recv_job_id.strip()
+
+    return True # no need to create file from here
+
     if recv_job_id != '-1':
         job_id = str(recv_job_id).zfill(8)
 

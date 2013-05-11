@@ -18,3 +18,9 @@ Figures:
 2013-05-09
 - two pages of experiments (figures)
 - check whether it is the last chunk. (using #threads and chunk_size)
+
+2013-05-10:
+figures:
+- utilization of VM resources.
+- link utilization (using number of handler threads)
+- Memory
