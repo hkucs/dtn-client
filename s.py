@@ -58,6 +58,8 @@ class Server(object):
 
         # new thread for counting the number of threads within interval
         counter = multiprocessing.Process(target=hdlr_counter)
+        process.daemon = True
+        process.start()
 
         while True:
             conn, addr = self.socket.accept()
