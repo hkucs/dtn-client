@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 '''
 src: https://gist.github.com/micktwomey/606178
 '''
@@ -7,15 +7,31 @@ import socket
 import utils
 import os
 import shutil
+import logging
 
 from config import *
 
+# basic logging config
+logging.basicConfig(level=logging.DEBUG,
+        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        datefmt='%m-%d %H:%M:%S')
+
 def handle(conn, addr):
-    import logging,json
-    logging.basicConfig(level=logging.DEBUG,
-            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-            datefmt='%m-%d %H:%M:%S')
-    logger = logging.getLogger("process: %r" % (addr,))
+    import json
+
+    logger = logging.getLogger("Handler: %r" % (addr,))
+
+    '''
+    # Output logging information to screen
+    hdlr_lg_stdout = logging.StreamHandler(sys.stderr)
+    logger.addHandler(hdlr_lg_stdout)
+
+    # Output logging information to file
+    logfile = 'dtm.log'
+    hdlr_lg_file = logging.FileHandler(logfile)
+    logger.addHandler(hdlr_lg_file)
+    '''
+
     try:
         logger.debug("Connected %r at %r", conn, addr)
         data = conn.recv(BUFFER_LEN)
@@ -43,7 +59,8 @@ def handle(conn, addr):
 
 
         # transmit
-        if 'next_hop' in decoded_json:
+        # if 'next_hop' in decoded_json:
+        if msg_type == 'transmit':
             next_hop = str(decoded_json.get('next_hop'))
             job_id = str(decoded_json.get('job_id')).zfill(8)
             chunk_id = str(decoded_json.get('chunk_id')).zfill(4)
@@ -52,7 +69,8 @@ def handle(conn, addr):
             utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
 
         # notify_dest
-        if 'chunk_size' in decoded_json:
+        # if 'chunk_size' in decoded_json:
+        if msg_type == 'notify_dest':
             logger.debug("Notified by controller: deadline for job.[TODO]")
             d_job_id = str(decoded_json.get('job_id')).zfill(8)
             d_chunk_size = str(decoded_json.get('chunk_size'))
@@ -81,7 +99,6 @@ def handle(conn, addr):
 
 class Listener(object):
     def __init__(self, hostname, port):
-        import logging
         self.logger = logging.getLogger("Listener")
         self.hostname = hostname
         self.port = port
@@ -101,10 +118,6 @@ class Listener(object):
             self.logger.debug("Started process %r", process)
 
 if __name__ == "__main__":
-    import logging
-    logging.basicConfig(level=logging.DEBUG,
-            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-            datefmt='%m-%d %H:%M:%S')
     listener = Listener("0.0.0.0", int(GATEWAY_CMD_PORT))
 
     try:

@@ -24,3 +24,8 @@ figures:
 - utilization of VM resources.
 - link utilization (using number of handler threads)
 - Memory
+
+2013-05-11:
+- Figure: {X: time slot; Y: sum(utility for each req)}
+- Figure: {X: time slot; Y: sum(req)}
+- Figure: {X: time slot: Y: threads (indicates bandwidth utililization)}
