@@ -1,16 +1,19 @@
-
+#!/usr/bin/env python
 '''
 src: https://gist.github.com/micktwomey/606178
 '''
 import multiprocessing
 import socket
+import logging
 
 from config import *
 
+logging.basicConfig(level=logging.DEBUG,
+            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            datefmt='%m-%d %H:%M:%S')
+
 def handle(conn, addr):
-    import logging
-    logging.basicConfig(level=logging.DEBUG)
-    logger = logging.getLogger("process: %r" % (addr,))
+    logger = logging.getLogger("TransHdlr: %r" % (addr,))
     try:
         logger.debug("Connected %r at %r", conn, addr)
         data = conn.recv(HEADER_LEN)
@@ -35,18 +38,23 @@ def handle(conn, addr):
         logger.debug("Closing socket")
         conn.close()
 
+def hdlr_counter():
+
+
 class Server(object):
     def __init__(self, hostname, port):
-        import logging
-        self.logger = logging.getLogger("server")
+        self.logger = logging.getLogger("Server")
         self.hostname = hostname
         self.port = port
 
     def start(self):
-        self.logger.debug("listening")
+        self.logger.debug("Listening")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((self.hostname, self.port))
         self.socket.listen(1)
+
+        # new thread for counting the number of threads within interval
+        counter = multiprocessing.Process(target=hdlr_counter)
 
         while True:
             conn, addr = self.socket.accept()
@@ -58,10 +66,7 @@ class Server(object):
             self.logger.debug("Started process %r", process)
 
 if __name__ == "__main__":
-    import logging
-    logging.basicConfig(level=logging.DEBUG,
-            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-            datefmt='%m-%d %H:%M:%S')
+
     server = Server("0.0.0.0", int(GATEWAY_DAT_PORT))
 
     try:
