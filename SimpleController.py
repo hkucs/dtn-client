@@ -84,4 +84,5 @@ if __name__ == '__main__':
     time.sleep(2)
     c.send_notify_dest()
     time.sleep(3)
+    c.send_response()
     c.send_notify_comp()

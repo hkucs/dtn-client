@@ -9,7 +9,7 @@ import random
 NUM_HOSTS=10
 HOSTS=['10.6.1.101', '10.6.1.102', '10.6.1.103', '10.6.1.104', '10.6.1.105', '10.6.1.106', '10.6.1.107', '10.6.1.108', '10.6.1.109', '10.6.1.110']
 DELAY=14
-DL_MR=20
+DL_MR=11
 DL_NB=10
 PR_MR='1.0'
 PR_NB='2.0'
@@ -24,7 +24,7 @@ def genMR(INTV):
     return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_MR, PR_MR)
 
 def genNB(INTV):
-    size = random.randint(1,4)
+    size = random.randint(1,6)
     src = random.randint(0,NUM_HOSTS-1)
     dst = src
     while dst == src:
@@ -53,15 +53,15 @@ def gen_req_file(filename):
 
         # generate NB jobs
         req_nb = []
-        for x in range(54):
+        for x in range(114):
             r = genNB(3)
             req_nb.append(r)
 
-        for x in range(54):
+        for x in range(114):
             r = genNB(4)
             req_nb.append(r)
 
-        for x in range(54):
+        for x in range(114):
             r = genNB(3)
             req_nb.append(r)
 

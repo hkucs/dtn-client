@@ -14,6 +14,10 @@ from config import *
 
 hostname = socket.gethostname()
 
+manager = multiprocessing.Manager()
+
+accepted_jobs = manager.list([])
+
 # basic logging config
 logging.basicConfig(level=logging.DEBUG,
         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -49,17 +53,22 @@ def handle(conn, addr):
         # create file upon successful response
         if msg_type == 'response':
             accept_or_not = str(decoded_json.get('accept_or_not'))
-            if accept_or_not == 'true':
-                job_id = str(decoded_json.get('job_id')).zfill(8)
-                logger.debug("Creating dummy chunks for job #%s", job_id)
-                chunk_size = int(decoded_json.get('chunk_size'))
+            job_id_i = int(decoded_json.get('job_id'))
+            job_id = str(decoded_json.get('job_id')).zfill(8)
+            if job_id_i not in accepted_jobs:
+                logger.debug("First Job Confirmation: XXX%sXXX with %s" % (job_id, accept_or_not))
+                accepted_jobs.append(job_id_i)
 
-                # create dummy chunks:
-                srcfile = '/data/block'
-                assert os.path.isabs(srcfile)
-                for x in range(0,chunk_size):
-                    dstfile = '/data/%s_%s' % (job_id, str(x).zfill(4))
-                    shutil.copy(srcfile, dstfile)
+                if accept_or_not == 'true':
+                    logger.debug("Creating dummy chunks for job #%s", job_id)
+                    chunk_size = int(decoded_json.get('chunk_size'))
+
+                    # create dummy chunks:
+                    srcfile = '/data/block'
+                    assert os.path.isabs(srcfile)
+                    for x in range(0,chunk_size):
+                        dstfile = '/data/%s_%s' % (job_id, str(x).zfill(4))
+                        shutil.copy(srcfile, dstfile)
 
 
         # transmit
