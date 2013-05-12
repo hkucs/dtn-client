@@ -35,7 +35,7 @@ def request(source, destination, size=4, delay=30, deadline=90, utility=1.0):
 
     # create socket
     s = socket.socket()
-    s.settimeout(2)
+    s.settimeout(5)
     s.connect(('147.8.178.128', 8088))
     s.sendall(cmd_json)
     s.sendall('\n')

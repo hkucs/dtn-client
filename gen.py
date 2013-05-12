@@ -15,21 +15,23 @@ PR_MR='1.0'
 PR_NB='2.0'
 
 def genMR(INTV):
+    PR = str(random.randint(1,10))+'.0'
     size = random.randint(10,15)
     src = random.randint(0,NUM_HOSTS-1)
     dst = src
     while dst == src:
         dst = random.randint(0,NUM_HOSTS-1)
 
-    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_MR, PR_MR)
+    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_MR, PR)
 
 def genNB(INTV):
+    PR = str(random.randint(1,10))+'.0'
     size = random.randint(1,6)
     src = random.randint(0,NUM_HOSTS-1)
     dst = src
     while dst == src:
         dst = random.randint(0,NUM_HOSTS-1)
-    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_NB, PR_NB)
+    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_NB, PR)
 
 def gen_req_file(filename):
     # 10min mini test
@@ -39,29 +41,29 @@ def gen_req_file(filename):
         f = open(filename, "w")
         # generate MR jobs
         req_mr = []
-        for x in range(6):
+        for x in range(12):
             r = genMR(3)
             req_mr.append(r)
 
-        for x in range(6):
+        for x in range(12):
             r = genMR(3)
             req_mr.append(r)
 
-        for x in range(6):
+        for x in range(12):
             r = genMR(4)
             req_mr.append(r)
 
         # generate NB jobs
         req_nb = []
-        for x in range(114):
+        for x in range(108):
             r = genNB(3)
             req_nb.append(r)
 
-        for x in range(114):
+        for x in range(108):
             r = genNB(4)
             req_nb.append(r)
 
-        for x in range(114):
+        for x in range(108):
             r = genNB(3)
             req_nb.append(r)
 
