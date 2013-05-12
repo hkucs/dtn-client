@@ -27,5 +27,9 @@ figures:
 
 2013-05-11:
 - Figure: {X: time slot; Y: sum(utility for each req)}
-- Figure: {X: time slot; Y: sum(req)}
-- Figure: {X: time slot: Y: threads (indicates bandwidth utililization)}
+- Figure: {X: time slot; Y: sum(job completed. req)}
+- Figure: {X: time slot; Y: threads (indicates bandwidth utililization)}
+- Figure: {X: job_id; Y: deadline and completed time}
+- Figure: gateway performance (mem, cpu, disk, etc.)
+- requests: 0 ~ 5 persec
+- X20 in scale
