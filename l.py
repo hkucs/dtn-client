@@ -12,6 +12,8 @@ import logging
 
 from config import *
 
+hostname = socket.gethostname()
+
 # basic logging config
 logging.basicConfig(level=logging.DEBUG,
         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -68,7 +70,7 @@ def handle(conn, addr):
             chunk_id = str(decoded_json.get('chunk_id')).zfill(4)
             filename = '/data/%s_%s' % (job_id, chunk_id)
             # send file
-            logger.debug("Sending Job #%s Chunk #%s", job_id, chunk_id)
+            logger.debug("Sending Job #%s Chunk #%s from %s to %s", job_id, chunk_id, hostname, next_hop)
             utils.send_file(next_hop, int(GATEWAY_DAT_PORT), filename, BUFFER_LEN)
 
         # notify_dest

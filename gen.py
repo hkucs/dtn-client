@@ -9,18 +9,27 @@ import random
 NUM_HOSTS=10
 HOSTS=['10.6.1.101', '10.6.1.102', '10.6.1.103', '10.6.1.104', '10.6.1.105', '10.6.1.106', '10.6.1.107', '10.6.1.108', '10.6.1.109', '10.6.1.110']
 DELAY=14
-DL_MR=25
+DL_MR=20
 DL_NB=10
 PR_MR='1.0'
 PR_NB='2.0'
 
 def genMR(INTV):
-    size = random.randint(10,20)
-    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[random.randint(0,NUM_HOSTS-1)], HOSTS[random.randint(0,NUM_HOSTS-1)], size, DELAY, DELAY+size*DL_MR, PR_MR)
+    size = random.randint(10,15)
+    src = random.randint(0,NUM_HOSTS-1)
+    dst = src
+    while dst == src:
+        dst = random.randint(0,NUM_HOSTS-1)
+
+    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_MR, PR_MR)
 
 def genNB(INTV):
     size = random.randint(1,4)
-    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[random.randint(0,NUM_HOSTS-1)], HOSTS[random.randint(0,NUM_HOSTS-1)], size, DELAY, DELAY+size*DL_NB, PR_NB)
+    src = random.randint(0,NUM_HOSTS-1)
+    dst = src
+    while dst == src:
+        dst = random.randint(0,NUM_HOSTS-1)
+    return '%d %s %s %d %d %d %s\n' % (INTV, HOSTS[src], HOSTS[dst], size, DELAY, DELAY+size*DL_NB, PR_NB)
 
 def gen_req_file(filename):
     # 10min mini test
@@ -30,22 +39,30 @@ def gen_req_file(filename):
         f = open(filename, "w")
         # generate MR jobs
         req_mr = []
-        for x in range(600):
-            r = genMR(0)
+        for x in range(6):
+            r = genMR(3)
             req_mr.append(r)
 
-        for x in range(300):
-            r = genMR(1)
+        for x in range(6):
+            r = genMR(3)
+            req_mr.append(r)
+
+        for x in range(6):
+            r = genMR(4)
             req_mr.append(r)
 
         # generate NB jobs
         req_nb = []
-        for x in range(600):
-            r = genNB(0)
+        for x in range(54):
+            r = genNB(3)
             req_nb.append(r)
 
-        for x in range(300):
-            r = genNB(1)
+        for x in range(54):
+            r = genNB(4)
+            req_nb.append(r)
+
+        for x in range(54):
+            r = genNB(3)
             req_nb.append(r)
 
         # shuffle
