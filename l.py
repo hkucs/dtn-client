@@ -56,7 +56,7 @@ def handle(conn, addr):
             job_id_i = int(decoded_json.get('job_id'))
             job_id = str(decoded_json.get('job_id')).zfill(8)
             if job_id_i not in accepted_jobs:
-                logger.debug("First Job Confirmation: XXX%sXXX with %s" % (job_id, accept_or_not))
+                logger.debug("First Job Confirmation: XXX%sXXX with %s" % (job_id_i, accept_or_not))
                 accepted_jobs.append(job_id_i)
 
                 if accept_or_not == 'true':
