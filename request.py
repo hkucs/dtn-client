@@ -89,7 +89,7 @@ def gen_req(filename):
     # 1st impl: print reqs instead of *really* send them
     # 2nd impl: send small number of requests
     for req in reqs:
-        time.sleep(int(req[0]))
+        time.sleep(float(req[0]))
         print req
         print request(str(req[1]), str(req[2]), int(req[3]), int(req[4]), int(req[5]), str(req[6]))
 

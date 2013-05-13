@@ -48,7 +48,7 @@ class Controller():
         s.close()
 
     def send_response(self):
-        j = {'job_id': '14', 'accept_or_not': 'true', 'chunk_size': '7', 'type': 'response'}
+        j = {'job_id': '14', 'accept_or_not': 'true', 'chunk_size': '7', 'utility': '2.0', 'type': 'response'}
         je = json.dumps(j)
 
         print j
