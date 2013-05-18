@@ -96,6 +96,12 @@ def gen_req(filename):
 
 if __name__ == '__main__':
 
+    filename = 't600-0-5'
+
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+        print filename
+
     '''
     Simple requests:
 
@@ -107,7 +113,7 @@ if __name__ == '__main__':
     '''
 
     #gen_req("t600")
-    gen_req("t600-0-5")
+    gen_req(filename)
 
 
 
