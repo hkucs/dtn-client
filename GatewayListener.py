@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-'''
-src: https://gist.github.com/micktwomey/606178
-'''
 import multiprocessing
 import threading
 import socket
@@ -24,6 +21,7 @@ logging.basicConfig(level=logging.DEBUG,
         datefmt='%s %m-%d %H:%M:%S')
 
 def handle(conn, addr):
+    ''' Handle all requests that the listener receives'''
     import json
 
     #logger = logging.getLogger("Handler: %r" % (addr,))
@@ -114,11 +112,13 @@ def handle(conn, addr):
 
 class Listener(object):
     def __init__(self, hostname, port):
+        '''Initialize logger, hostname, and port'''
         self.logger = logging.getLogger("Listener")
         self.hostname = hostname
         self.port = port
 
     def start(self):
+        '''Start the listener'''
         self.logger.debug("listening to commands")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((self.hostname, self.port))

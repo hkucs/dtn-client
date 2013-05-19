@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-'''
-src: https://gist.github.com/micktwomey/606178
-'''
 import multiprocessing
 import socket
 import logging
@@ -15,6 +12,8 @@ logging.basicConfig(level=logging.DEBUG,
             datefmt='%m-%d %H:%M:%S')
 
 def handle(conn, addr):
+    '''To handle every request that the Listener receives'''
+
     logger = logging.getLogger("TransHdlr: %r" % (addr,))
     try:
         logger.debug("Connected %r at %r", conn, addr)
@@ -41,6 +40,7 @@ def handle(conn, addr):
         conn.close()
 
 class Server(object):
+    '''Main class for listening to requests'''
     def __init__(self, hostname, port):
         self.logger = logging.getLogger("Server")
         self.hostname = hostname
