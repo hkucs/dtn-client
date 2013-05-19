@@ -12,7 +12,10 @@ TIMEOUT=2
 LISTENER_ADDR='10.6.0.101'
 
 class Controller():
-
+    '''
+    Fake controller
+    Used for small scale self-testing without connecting to the actual controller
+    '''
     def __init__(self):
         '''
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
