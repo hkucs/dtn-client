@@ -6,7 +6,11 @@ import os
 import random
 
 #INTV=10
+
+# Total number of gateways, in this case, 10
 NUM_HOSTS=10
+
+# List of gateways
 HOSTS=['10.6.1.101', '10.6.1.102', '10.6.1.103', '10.6.1.104', '10.6.1.105', '10.6.1.106', '10.6.1.107', '10.6.1.108', '10.6.1.109', '10.6.1.110']
 DELAY=14
 DL_MR=11

@@ -16,6 +16,7 @@ manager = multiprocessing.Manager()
 accepted_jobs = manager.list([])
 
 # basic logging config
+# show unix timestamp and human-readable timestamp
 logging.basicConfig(level=logging.DEBUG,
         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
         datefmt='%s %m-%d %H:%M:%S')
